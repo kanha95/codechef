@@ -1,0 +1,139 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Scanner;
+ 
+
+ class subse1 {
+     public static void main(String[] args) {
+         Scanner sc = new Scanner(System.in);
+         int n = sc.nextInt();
+         long k = sc.nextLong();
+         int n1=n/2;
+         int n2=n-n1;
+         long[] f = new long[n1];
+         long[] l = new long[n2];
+         
+         for(int i=0;i<n1;i++)
+         {
+             f[i]= sc.nextLong();
+         }
+         
+         for(int i =0;i<n2;i++)
+         {
+            l[i]= sc.nextLong();
+         }
+         Arrays.sort(f);
+         Arrays.sort(l);
+         ArrayList<Long> ff = new ArrayList();
+         ArrayList<Long> ll = new ArrayList();
+         
+         
+         long count=0;
+         for (int i = 1; i < (1<<n1); i++)
+		{
+			
+                    long prod =1;
+                    long v=k;
+			for (int j = 0; j <n1; j++)
+                        {
+				
+				if ((i & (1 << j)) > 0 && Math.floor(k/f[j])>=prod)
+                                {
+                                    
+                                   prod=prod*f[j];
+                                }
+                                 else if( (i & (1 << j))>0)
+                                {
+                                    prod=k+1;
+                                    break;
+                                }
+                        }           
+ 
+			if(prod<=k)
+                        { count++;
+                        ff.add(prod);
+                        }
+		}
+         System.out.println(ff);
+         for (int i = 1; i < (1<<n2); i++)
+		{
+			
+                    long prod =1;
+                    long v=k;
+			for (int j = 0; j <n2; j++)
+ 
+                        {
+				if ((i & (1 << j)) > 0 && Math.floor(k/l[j])>=prod)
+                                {
+                                 
+                                   prod=prod*l[j];
+                                }
+                                else if( (i & (1 << j))>0)
+                                {
+                                    prod=k+1;
+                                    break;
+                                }
+                        }           
+
+			if(prod<=k)
+                        { 
+                            count++;
+                            ll.add(prod);
+                        }
+		}
+         System.out.println(ll);
+      //System.out.println(count);
+      Collections.sort(ll);
+      long la[] = new long[ll.size()];
+      int lg = ll.size();
+      
+      for(int i=0;i<ll.size();i++)
+      {
+          la[i]=ll.get(i);
+      }
+      Collections.sort(ff);
+      //System.out.println(ff.get(0)+" "+ff.get(1));
+      for(int i=0;i<ff.size();i++)
+      {
+          long v = (long)Math.floor(k/ff.get(i));
+        
+         int val= binaryupper(la,v,0,lg-1)+1;
+       
+         System.out.println(val);
+         count=count+val;
+          
+      }
+      System.out.println(count);
+      
+      
+      
+      
+     }
+   static  int binaryupper(long a[],long m,int l,int u)
+{
+	int  mid;long c=0;
+   	if(l<=u)
+	{
+ 	    	mid=(l+u)/2;
+      		if(m==a[mid])
+      		{
+			c=m;
+        	 	return binaryupper(a,m,mid+1,u);
+      		}
+      		else if(m<a[mid])
+		{	
+        	  	return binaryupper(a,m,l,mid-1);
+      		}
+      		else
+		{     
+			return binaryupper(a,m,mid+1,u);
+       		}
+    	}
+ 
+   	else
+        	return u;
+  }
+    
+}
+ 
